@@ -16,7 +16,7 @@ import statRoutes from "./routes/stat.route.js";
 dotenv.config();
 
 const app = express();
-const __dirname = path.resolve;
+const __dirname = path.resolve();
 const PORT = process.env.PORT;
 
 app.use(express.json()); // to parse req.body
@@ -39,9 +39,17 @@ app.use("/api/songs", songRoutes);
 app.use("/api/album", albumRoutes);
 app.use("/api/stats", statRoutes);
 
-app.use(error, req, res, next) => {
-  res.status(500).json({ message: error.message });
-};
+// error handler middleware
+app.use((err, req, res, next) => {
+  res
+    .status(500)
+    .json({
+      message:
+        process.env.NODE_ENV === "production"
+          ? "Internal server error"
+          : err.message,
+    });
+});
 
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);
