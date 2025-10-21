@@ -23,7 +23,7 @@ const AlbumPage = () => {
   if (isLoading) return null;
   return (
     <div className="h-full">
-      <ScrollArea className="h-full">
+      <ScrollArea className="h-full rounded-md">
         {/* Main Content */}
         <div className="flex-1 h-full overflow-hidden">
           {/* bg gradient */}
