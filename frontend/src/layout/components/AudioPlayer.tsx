@@ -9,13 +9,21 @@ const AudioPlayer = () => {
 
   // handle play/pause logic
   useEffect(() => {
-    if (isPlaying) audioRef.current?.play();
-    else audioRef.current?.pause();
+    const audio = audioRef.current;
+
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.play().catch((err) => console.warn("Audio play error:", err));
+    } else {
+      audio.pause();
+    }
   }, [isPlaying]);
 
   // handle songs ends
   useEffect(() => {
     const audio = audioRef.current;
+    if (!audio) return;
 
     const handleEnded = () => {
       playNext();
@@ -28,9 +36,8 @@ const AudioPlayer = () => {
 
   // handle song changes
   useEffect(() => {
-    if (!audioRef.current || !currentSong) return;
-
     const audio = audioRef.current;
+    if (!audio || !currentSong) return;
 
     // check if this is actually a new song
     const isSongChange = prevSongRef.current !== currentSong?._id;
@@ -40,13 +47,15 @@ const AudioPlayer = () => {
       // reset the playback position
       audio.currentTime = 0;
 
-      prevSongRef.current = currentSong?.audioUrl;
+      prevSongRef.current = currentSong?._id;
 
-      if (isPlaying) audio.play();
+      if (isPlaying) {
+        audio.play().catch((err) => console.warn("Audio autoplay error:", err));
+      }
     }
   }, [currentSong, isPlaying]);
 
-  return <audio ref={audioRef} />;
+  return <audio ref={audioRef} preload="metadata" />;
 };
 
 export default AudioPlayer;
