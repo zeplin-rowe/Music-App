@@ -4,8 +4,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChatStore } from "@/stores/useChatStore";
 
 const UsersLists = () => {
-  const { users, selectedUser, isLoading, setSelectedUser, onlineUsers } =
-    useChatStore();
+  const {
+    users,
+    selectedUser,
+    isLoading,
+    setSelectedUser,
+    onlineUsers,
+    fetchMessages,
+  } = useChatStore();
   return (
     <div className="border-r border-zinc-800">
       <div className="flex flex-col h-full">
@@ -17,7 +23,10 @@ const UsersLists = () => {
               users.map((user) => (
                 <div
                   key={user._id}
-                  onClick={() => setSelectedUser(user)}
+                  onClick={() => {
+                    setSelectedUser(user);
+                    fetchMessages(user.clerkId);
+                  }}
                   className={`flex items-center justify-center lg:justify-start gap-3 p-3 rounded-lg cursor-pointer transition-colors 
                     ${
                       selectedUser?.clerkId === user.clerkId
@@ -41,7 +50,7 @@ const UsersLists = () => {
                     />
                   </div>
 
-                  <div className="flex-1 min-w-0 lg:black hidden">
+                  <div className="flex-1 min-w-0  hidden lg:block">
                     <span className="font-medium truncate">
                       {user.fullName}
                     </span>

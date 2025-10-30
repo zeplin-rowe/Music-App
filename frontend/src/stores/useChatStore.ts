@@ -40,13 +40,14 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   messages: [],
   selectedUser: null,
 
-  setSelectedUser: (user) => set({ selectedUser: user }),
+  setSelectedUser: (user) => {
+    set({ selectedUser: user });
+  },
 
   fetchUsers: async () => {
     set({ isLoading: true, error: null });
     try {
       const response = await axiosInstance.get("/users");
-      console.log("Fetched users:", response.data);
       set({ users: response.data });
     } catch (error: any) {
       set({ error: error.response.data.message });
@@ -128,7 +129,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   fetchMessages: async (userId: string) => {
     set({ isLoading: true, error: null });
     try {
+      console.log("Fetching messages for:", userId); // 👈 ADD THIS
       const response = await axiosInstance.get(`/users/messages/${userId}`);
+      console.log("Fetched messages:", response.data); // 👈 ADD THIS
       set({ messages: response.data });
     } catch (error: any) {
       set({ error: error.response.data.message });
