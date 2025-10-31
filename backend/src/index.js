@@ -51,7 +51,7 @@ app.use(
 const tempDir = path.join(process.cwd(), "tmp");
 // cron jobs => delete temp files
 cron.schedule("0 * * * *", () => {
-  if (fstat.existsSync(tempDir)) {
+  if (fs.existsSync(tempDir)) {
     fs.readdir(tempDir, (err, files) => {
       if (err) {
         console.log("error", err);
@@ -73,7 +73,7 @@ app.use("/api/stats", statRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
-  app.get("/*", (req, res) => {
+  app.get("/.*/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"));
   });
 }
