@@ -31,7 +31,7 @@ interface NewSong {
 
 const AddSongDialog = () => {
   const { albums } = useMusicStore();
-  const { songDialogOpen, setSongDialogOpen } = useState(false);
+  const [songDialogOpen, setSongDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [newSong, setNewSong] = useState<NewSong>({

@@ -1,6 +1,6 @@
 import TopBar from "@/components/TopBar";
 import { useMusicStore } from "@/stores/useMusicStore";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import FeaturedSection from "./components/FeaturedSection";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SectionGrid from "./components/SectionGrid";
